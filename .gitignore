@@ -1,0 +1,8 @@
+node_modules/
+_site/
+todo.md
+.DS_Store
+drafts/
+posts/
+_includes/
+.eleventy.js

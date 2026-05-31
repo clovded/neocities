@@ -1,0 +1,139 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body.page-content {
+      font-size: var(--fs-base);
+    }
+
+    .home-layout {
+      padding: 4px 0 180px 0;
+      position: relative;
+    }
+
+    .float-wrap {
+      display: flow-root;
+    }
+
+    .log-entry {
+      display: flex;
+      gap: 14px;
+      line-height: 1.9;
+    }
+
+    .log-date {
+      opacity: 0.4;
+      flex-shrink: 0;
+      font-weight: 300;
+      font-size: var(--fs-lg);
+      padding-top: 3px;
+    }
+
+    .img-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .img-wrap.float-left {
+      float: left;
+      margin-right: var(--sp-lg);
+    }
+
+    .img-wrap.float-right {
+      float: right;
+      margin-left: var(--sp-lg);
+    }
+
+    .img-wrap.w-xs {
+      width: 18%;
+    }
+
+    .img-wrap.w-md {
+      width: 34%;
+    }
+
+    .img-wrap.w-lg {
+      width: 52%;
+    }
+
+    .img-fluid {
+      width: 100%;
+      display: block;
+    }
+
+    #logs-container {
+      max-height: 140px;
+      overflow-y: auto;
+      border: 1px solid var(--c-gray-dark);
+      padding: 6px 10px;
+    }
+
+    .logs-section {
+      margin-top: var(--sp-md);
+    }
+
+  </style>
+</head>
+
+<body class="page-content">
+
+  <main class="home-layout">
+
+    <div class="float-wrap">
+      <div class="float-right w-xs img-wrap img-hover-wrap" data-tooltip="how can you not like smiski figures?">
+        <img src="../img/smiski.png" class="img-fluid">
+        <span class="caption-text">smiski</span>
+      </div>
+      <div class="big-heading">[ about ]</div>
+      <p class="body-text">{{ home.about }}</p>
+      <div class="float-left w-md img-wrap img-hover-wrap" data-tooltip="could be us">
+        <img src="../img/nightwalk.jpg" class="img-fluid">
+        <span class="caption-text">doko demo issyo</span>
+      </div>
+      <div class="big-heading">[ on this site ]</div>
+      <p class="body-text">{{ home.onThisSite }}</p>
+    </div>
+
+    <hr class="rule">
+
+    <section class="logs-section">
+    <div class="float-wrap">
+      <div class="float-right w-lg img-wrap img-hover-wrap" data-tooltip="i'm a huge fan of sukinapan and low poly art like this in general. this started when i discovered the game &quot;rental&quot; on steam.">
+        <img src="../img/sukinapan.jpg" class="img-fluid">
+        <span class="caption-text">© sukinapan</span>
+      </div>
+      <div class="big-heading">[ logs ]</div>
+      <div id="logs-container"></div>
+      <script>
+        // ── Utilities ──
+        const formatDate = date => new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase();
+
+        // ── Data ──
+        const logs = [
+          { date: '2026-04-21', text: 'create: neocities domain' },
+          { date: '2026-05-31', text: 'launch: v1' },
+        ];
+
+        // ── Render ──
+        logs.sort((entryA, entryB) => entryB.date.localeCompare(entryA.date));
+        document.getElementById('logs-container').innerHTML = logs.map(({ date, text }) =>
+          `<div class="log-entry"><span class="log-date">${formatDate(date)}</span><span class="body-text-small">${text}</span></div>`
+        ).join('');
+      </script>
+    </div>
+    </section>
+
+  </main>
+
+
+  <script type="module" src="../js/tooltip.js"></script>
+</body>
+
+</html>

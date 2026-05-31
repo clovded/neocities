@@ -1,32 +1,322 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The web site of clovded</title>
-    <!-- The style.css file allows you to change the look of your web pages.
-         If you include the next line in all your web pages, they will all share the same look.
-         This makes it easier to make new pages for your site. -->
-    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
-  </head>
-  <body>
-    <h1>Welcome to my Website!</h1>
+<html lang="en">
 
-    <p>This is a paragraph! Here's how you make a link: <a href="https://neocities.org">Neocities</a>.</p>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>clovded.neocities.org</title>
+  <style>
+    html {
+      overflow: hidden;
+      height: 100%;
+    }
 
-    <p>Here's how you can make <strong>bold</strong> and <em>italic</em> text.</p>
+    .subtext {
+      font-family: "Chivo Mono", monospace;
+      font-weight: 300;
+      opacity: var(--opacity-muted);
+    }
 
-    <p>Here's how you can add an image:</p>
-    <img src="/neocities.png" alt="Site hosted by Neocities">
+    .desktop-topbar {
+      justify-content: space-evenly;
+      height: 36px;
+      width: min(100%, var(--layout-max));
+      align-self: center;
+    }
 
-    <p>Here's how to make a list:</p>
+    .desktop-footer {
+      color: color-mix(in srgb, var(--c-text) 35%, transparent);
+      justify-content: space-between;
+      padding: 0 var(--sp-xl);
+      height: 28px;
+      font-size: var(--fs-md);
+      letter-spacing: 0.5px;
+      width: min(100%, var(--layout-max));
+      align-self: center;
+    }
 
-    <ul>
-      <li>First thing</li>
-      <li>Second thing</li>
-      <li>Third thing</li>
-    </ul>
+    .desktop-topbar a {
+      color: color-mix(in srgb, var(--c-text) 55%, transparent);
+      text-decoration: none;
+      font-size: var(--fs-xl);
+      padding: 4px 10px;
+      border-radius: 2px;
+      transition: color 0.15s, background 0.15s;
+    }
 
-    <p>To learn more HTML/CSS, check out these <a href="https://neocities.org/tutorials">tutorials</a>!</p>
-  </body>
+    .desktop-topbar a:hover {
+      color: var(--c-text);
+      background: var(--c-tint-hover);
+    }
+
+    .desktop-topbar a.active {
+      color: var(--c-text);
+      background: var(--c-tint-active);
+    }
+
+    .desktop {
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      position: relative;
+      gap: 6px;
+      padding: 6px;
+      width: min(100%, var(--layout-max));
+      align-self: center;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--c-star);
+      pointer-events: none;
+      animation: twinkle var(--duration) ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from {
+        opacity: var(--opacity-min);
+      }
+
+      to {
+        opacity: var(--opacity-max);
+      }
+    }
+
+    .left-sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-sm);
+      padding: 10px;
+    }
+
+    .profile-card img {
+      width: 100px;
+      height: 100px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .profile-info {
+      text-align: left;
+      margin-top: 6px;
+      font-size: var(--fs-lg);
+      line-height: 1.7;
+      color: var(--c-text);
+    }
+
+    .sidebar-stats {
+      margin-top: auto;
+      font-size: var(--fs-sm);
+      color: var(--c-text);
+      width: 100%;
+      border-top: 1px solid var(--c-tint-active);
+      padding-top: 10px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+
+    .sidebar-footer {
+      margin-top: 6px;
+    }
+
+    .sidebar-link {
+      color: var(--c-text);
+      opacity: var(--opacity-muted);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+
+
+    .sidebar-datetime {
+      border-top: 1px solid var(--c-tint-active);
+      margin-top: 6px;
+      padding-top: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .wrapper {
+      flex: 1;
+      max-width: 860px;
+      height: calc(100vh - 76px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .titlebar {
+      height: 24px;
+      padding: 0 10px;
+      font-size: var(--fs-base);
+    }
+
+    .content-frame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: transparent;
+    }
+
+    .iframe-tooltip {
+      width: fit-content;
+      max-width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="desktop-topbar desktop-bar" aria-label="site navigation">
+    <a href="pages/home.html" target="content">home</a>
+    <a href="pages/quotes.html" target="content">quotes</a>
+    <a href="pages/guestbook.html" target="content">guestbook</a>
+    <a href="pages/hirono.html" target="content">hirono</a>
+    <a href="pages/vending_machine.html" target="content">vending machine</a>
+  </nav>
+
+  <main class="desktop">
+
+    <aside class="left-sidebar glass-panel">
+      <div class="profile-card">
+        <img src="https://i.pinimg.com/736x/cb/7d/56/cb7d561cc379a58b9fbb9bcf0535f688.jpg" alt="profile">
+        <div class="profile-info">
+          <div>cloud</div>
+          <div class="subtext">she/her</div>
+        </div>
+      </div>
+      <hr class="rule">
+      <a href="https://tamanotchi.world/32237c" target="_blank"><img src="https://tamanotchi.world/i2/32237"
+          alt="It's tamaNOTchi! Click to feed!"></a>
+      <hr class="rule">
+
+      <div class="sidebar-stats subtext">
+        <div class="stat-row"><span class="caption-text">visitors</span><span>
+            <script language="javascript" type="text/javascript"
+              src="//counter1.fc2.com/counter.php?id=40991392&main=1"></script><noscript><img
+                src="//counter1.fc2.com/counter_img.php?id=40991392&main=1" /></noscript>
+          </span></div>
+        <div class="stat-row"><span class="caption-text">created</span><span class="body-text-mini">21 apr 2026</span></div>
+        <div class="stat-row"><span class="caption-text">updated</span><span id="lastUpdated" class="body-text-mini">...</span></div>
+        <div class="sidebar-footer"><a href="https://neocities.org/site/clovded" target="_blank"
+            class="sidebar-link">neocities profile ↗</a></div>
+        <div class="sidebar-datetime">
+          <span id="sidebarDate" class="caption-text"></span>
+          <span id="sidebarTime" class="caption-text"></span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="wrapper glass-panel">
+      <div class="titlebar desktop-bar">clovded.neocities.org</div>
+      <iframe name="content" class="content-frame" title="page content"></iframe>
+    </section>
+
+  </main>
+
+  <footer class="desktop-footer desktop-bar">
+    <span class="caption-text">clovded</span>
+    <span class="caption-text">neocities</span>
+  </footer>
+
+  <div id="iframe-tooltip" class="tooltip-overlay iframe-tooltip"></div>
+
+  <script src="js/stars.js"></script>
+  <script>
+    // ── Utilities ──
+    const formatDate = date => date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase();
+
+    const fetchWithCache = (url, timeToLiveMs) => {
+      const cacheKey = `cf:${url}`;
+      const cachedEntry = JSON.parse(localStorage.getItem(cacheKey) ?? 'null');
+      if (cachedEntry && Date.now() < cachedEntry.expires) return Promise.resolve(cachedEntry.data);
+      return fetch(url).then(response => response.json()).then(data => {
+        try { localStorage.setItem(cacheKey, JSON.stringify({ data, expires: Date.now() + timeToLiveMs })); } catch (_) { }
+        return data;
+      });
+    };
+
+    // ── Clock ──
+    const CLOCK_INTERVAL_MS = 60_000;
+
+    const updateTime = () => {
+      document.getElementById('sidebarTime').textContent =
+        new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    };
+
+    document.getElementById('sidebarDate').textContent = formatDate(new Date());
+    updateTime();
+    setInterval(updateTime, CLOCK_INTERVAL_MS);
+
+    // ── Elements ──
+    const TOOLTIP_OFFSET_X = 16;
+    const tooltipOverlay = document.getElementById('iframe-tooltip');
+    const navLinks = document.querySelectorAll('.desktop-topbar a');
+    const contentFrame = document.querySelector('.content-frame');
+
+    // ── Tamagotchi tooltip ──
+    const tamagotchiLink = document.querySelector('a[href*="tamanotchi"]');
+    tamagotchiLink.addEventListener('mouseenter', () => {
+      tooltipOverlay.textContent = 'feed me!!';
+      tooltipOverlay.style.display = 'block';
+    });
+    tamagotchiLink.addEventListener('mousemove', event => {
+      tooltipOverlay.style.left = `${event.clientX + TOOLTIP_OFFSET_X}px`;
+      tooltipOverlay.style.top = `${event.clientY}px`;
+    });
+    tamagotchiLink.addEventListener('mouseleave', () => {
+      tooltipOverlay.style.display = 'none';
+    });
+
+    // ── Iframe tooltip ──
+    window.addEventListener('message', event => {
+      if (event.origin !== location.origin) return;
+      const { type, content, x, y } = event.data;
+      if (type === 'tooltip-show') {
+        tooltipOverlay.textContent = content;
+        tooltipOverlay.style.display = 'block';
+      } else if (type === 'tooltip-move') {
+        const frameRect = contentFrame.getBoundingClientRect();
+        tooltipOverlay.style.left = `${frameRect.left + x + TOOLTIP_OFFSET_X}px`;
+        tooltipOverlay.style.top = `${frameRect.top + y}px`;
+      } else if (type === 'tooltip-hide') {
+        tooltipOverlay.style.display = 'none';
+      }
+    });
+
+    // ── Navigation ──
+    const savedPage = localStorage.getItem('active-page') ?? 'pages/home.html';
+
+    contentFrame.src = savedPage;
+    navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === savedPage));
+
+    navLinks.forEach(navLink => {
+      navLink.addEventListener('click', () => {
+        navLinks.forEach(link => link.classList.remove('active'));
+        navLink.classList.add('active');
+        localStorage.setItem('active-page', navLink.getAttribute('href'));
+      });
+    });
+
+    // ── Last updated ──
+    const GITHUB_CACHE_TTL_MS = 3_600_000;
+
+    fetchWithCache('https://api.github.com/repos/clovded/neocities/commits?per_page=1', GITHUB_CACHE_TTL_MS)
+      .then(commits => {
+        document.getElementById('lastUpdated').textContent = formatDate(new Date(commits[0].commit.author.date));
+      }).catch(() => {
+        document.getElementById('lastUpdated').textContent = '—';
+      });
+  </script>
+
+</body>
+
 </html>

@@ -1,0 +1,305 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    :root {
+      --c-amber-tint: #ab917708;
+    }
+
+    .hirono-section {
+      margin-bottom: var(--sp-md);
+    }
+
+    .hirono-collection-block {
+      display: flex;
+      flex-direction: column;
+      margin-top: var(--sp-md);
+    }
+
+    .hirono-series-label {
+      display: flex;
+      margin-bottom: 0;
+      z-index: 2;
+    }
+
+    .hirono-series-label span {
+      background: var(--c-gray-dark);
+      color: var(--c-rule);
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      padding: var(--sp-xs) var(--sp-md);
+      border: 1px solid var(--c-gray-dark);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .hirono-grid {
+      display: flex;
+      flex-wrap: wrap;
+      border: 1px solid var(--c-gray-dark);
+      border-bottom: 6px solid var(--c-amber-tint);
+      padding: 30px 15px 15px 15px;
+      gap: 10px;
+      position: relative;
+      top: -1px;
+    }
+
+    .hirono-figure {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      border-right: 1px solid var(--c-gray-dark);
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    .hirono-figure:hover,
+    #wishlist-heading:hover {
+      background: var(--c-gray-dark);
+      transform: translateY(-4px);
+    }
+
+    .hirono-figure img {
+      width: 100px;
+      height: 100px;
+      opacity: 0.85;
+      object-fit: contain;
+      margin-bottom: var(--sp-md);
+    }
+
+    .hirono-figure span {
+      font-size: var(--fs-xs);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--c-gray-mid);
+      text-align: center;
+    }
+
+    /* ── wishlist ── */
+    .wishlist-section {
+      margin-top: var(--sp-3xl);
+    }
+
+    .wishlist-clipboard {
+      margin-top: var(--sp-xl);
+      background: var(--c-amber-tint);
+      border: 1px solid var(--c-gray-dark);
+      border-top: 3px solid var(--c-gray-dark);
+      padding: var(--sp-xl);
+      position: relative;
+    }
+
+    .wishlist-label {
+      position: absolute;
+      top: -10px;
+      left: var(--sp-lg);
+      background: var(--c-gray-dark);
+      padding: 0 var(--sp-sm);
+      font-size: var(--fs-2xs);
+      letter-spacing: 3px;
+      color: var(--c-gray-mid);
+    }
+
+    .wishlist-columns {
+      column-count: 2;
+      column-gap: var(--sp-3xl);
+    }
+
+    .wishlist-block {
+      break-inside: avoid;
+      margin-bottom: var(--sp-xl);
+    }
+
+    .wishlist-series {
+      font-size: var(--fs-sm);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--c-rule);
+      border-bottom: 1px solid var(--c-gray-dark);
+      padding-bottom: var(--sp-xs);
+      margin-bottom: 6px;
+    }
+
+    .wishlist-item {
+      font-size: var(--fs-lg);
+      line-height: 1.9;
+      color: var(--c-gray-mid);
+      display: flex;
+      gap: 6px;
+    }
+
+    .wishlist-bullet {
+      color: var(--c-gray-dark);
+      flex-shrink: 0;
+    }
+
+    .wishlist-note {
+      font-size: var(--fs-sm);
+      font-style: italic;
+      margin-bottom: var(--sp-xs);
+      padding-left: var(--sp-md);
+      color: var(--c-gray-mid);
+    }
+
+    .wishlist-toggle {
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      width: fit-content;
+      margin: 0 auto;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .wishlist-toggle:hover {
+      background: var(--c-gray-dark);
+      transform: translateY(-4px);
+    }
+
+    .wishlist-toggle img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+
+
+    #wishlist-heading {
+      transition: all 0.2s ease-in-out;
+      width: fit-content;
+    }
+  </style>
+</head>
+
+<body class="page-content">
+
+  <main>
+  <section class="hirono-section">
+    <div class="big-heading">[ my collection ]</div>
+
+    <div class="hirono-collection-list">
+      {% for group in hirono.collection %}
+      <div class="hirono-collection-block">
+        <div class="hirono-series-label"><span>{{ group.series }}</span></div>
+        <div class="hirono-grid">
+          {% for figure in group.figures %}
+          <div class="hirono-figure{% if figure.tooltip %} img-hover-wrap{% endif %}"{% if figure.tooltip %} data-tooltip="{{ figure.tooltip }}"{% endif %}>
+            <img src="{{ figure.img }}" alt="{{ figure.name }}">
+            <span>{{ figure.name }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="wishlist-section">
+    <div class="wishlist-toggle" id="wishlist-toggle">
+      <img src="../img/package.png" alt="open wishlist">
+    </div>
+    <div class="wishlist-content" id="wishlist-content">
+      <div class="big-heading" id="wishlist-heading" style="cursor:pointer;">[ wishlist ]</div>
+      <div class="wishlist-clipboard">
+        <span class="wishlist-label">BACKORDER LIST</span>
+        <div class="wishlist-columns">
+          {% for block in hirono.wishlist %}
+          <div class="wishlist-block">
+            <div class="wishlist-series">{{ block.series }}</div>
+            {% if block.note %}<div class="wishlist-note">{{ block.note }}</div>{% endif %}
+            {% for item in block.items %}
+            <div class="wishlist-item"><span class="wishlist-bullet">·</span>{{ item }}</div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <div class="vm-modal-backdrop" id="vm-modal-backdrop">
+    <div class="vm-dialog bevel" role="dialog" aria-modal="true" aria-labelledby="vm-modal-title">
+      <div class="vm-dialog-titlebar">
+        <span class="vm-dialog-ctrl">□</span>
+        <span class="vm-dialog-title" id="vm-modal-title"></span>
+        <span class="vm-dialog-ctrl">□</span>
+        <button class="vm-dialog-ctrl" id="vm-modal-close" aria-label="close">✕</button>
+      </div>
+      <div class="vm-dialog-body">
+        <img class="vm-dialog-img" id="vm-modal-img" src="" alt="">
+        <button class="vm-ok-btn bevel" id="vm-modal-ok"></button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { openModal } from '../js/modal.js';
+    import '../js/tooltip.js';
+
+    // ── Config ──
+    const CONFIG = {
+      ids: {
+        modalTitle: 'vm-modal-title',
+        modalImg:   'vm-modal-img',
+        toggle:     'wishlist-toggle',
+        content:    'wishlist-content',
+        heading:    'wishlist-heading',
+      },
+      classes: { figure: '.hirono-figure' },
+    };
+
+    // ── Elements ──
+    const modalTitle     = document.getElementById(CONFIG.ids.modalTitle);
+    const modalImage     = document.getElementById(CONFIG.ids.modalImg);
+    const wishlistToggle  = document.getElementById(CONFIG.ids.toggle);
+    const wishlistContent = document.getElementById(CONFIG.ids.content);
+
+    // ── Logic ──
+    const getFigureData = figure => ({
+      image: figure.querySelector('img'),
+      label: figure.querySelector('span'),
+    });
+
+    // ── Render ──
+    const showWishlist = () => {
+      wishlistContent.style.display = 'block';
+      wishlistToggle.style.display  = 'none';
+    };
+
+    const hideWishlist = () => {
+      wishlistContent.style.display = 'none';
+      wishlistToggle.style.display  = 'flex';
+    };
+
+    const renderModalContent = ({ image, label }) => {
+      modalImage.src        = image.src;
+      modalImage.alt        = image.alt;
+      modalTitle.textContent = label?.textContent ?? image.alt;
+    };
+
+    // ── Init ──
+    hideWishlist();
+
+    wishlistToggle.addEventListener('click', showWishlist);
+    document.getElementById(CONFIG.ids.heading).addEventListener('click', hideWishlist);
+
+    document.querySelectorAll(CONFIG.classes.figure).forEach(figure => {
+      figure.addEventListener('click', () => {
+        const data = getFigureData(figure);
+        if (!data.image) return;
+        renderModalContent(data);
+        openModal();
+      });
+    });
+  </script>
+</body>
+
+</html>

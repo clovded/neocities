@@ -1,0 +1,70 @@
+{
+  "collection": [
+    {
+      "series": "shelter series",
+      "figures": [
+        {
+          "name": "alien",
+          "img": "https://global-static.popmart.com/globalAdmin/1721118864571____alien____.png?x-oss-process=image/format,webp"
+        },
+        {
+          "name": "birdcage",
+          "img": "https://global-static.popmart.com/globalAdmin/1721118924293____birdcage____.png?x-oss-process=image/format,webp"
+        },
+        {
+          "name": "mantel clock",
+          "img": "https://global-static.popmart.com/globalAdmin/1721118731725____mantel-clock____.png?x-oss-process=image/format,webp"
+        },
+        {
+          "name": "warrior (my fav)",
+          "img": "https://global-static.popmart.com/globalAdmin/1721118886910____warrior____.png?x-oss-process=image/format,webp",
+          "tooltip": "can you tell i like stars?"
+        }
+      ]
+    },
+    {
+      "series": "the other one series",
+      "figures": [
+        {
+          "name": "raving",
+          "img": "https://global-static.popmart.com/globalAdmin/1732003918689____raving____.png?x-oss-process=image/format,webp",
+          "tooltip": "got this blind box gifted by a friend! :3"
+        }
+      ]
+    }
+  ],
+  "wishlist": [
+    {
+      "series": "the other one series",
+      "items": ["amnesia"]
+    },
+    {
+      "series": "city of mercy series",
+      "items": ["echo"]
+    },
+    {
+      "series": "mime series",
+      "items": ["patience"]
+    },
+    {
+      "series": "reshape series",
+      "items": ["fading", "voyage"]
+    },
+    {
+      "series": "shelter series",
+      "items": ["candle holder"]
+    },
+    {
+      "series": "echo series",
+      "items": ["hiding behind you", "pieces of memory", "journey in the rain"]
+    },
+    {
+      "series": "tamed wildgrass",
+      "items": ["digital bind", "live under receipts", "canned dreams"]
+    },
+    {
+      "series": "specials / limited editions",
+"items": ["hirono coffee", "floating market", "the pianist", "tuk tuk figure"]
+    }
+  ]
+}

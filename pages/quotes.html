@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .quotes-header-img {
+      flex-shrink: 0;
+    }
+
+    .quotes-header {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-top: var(--sp-md);
+      margin-bottom: var(--sp-3xl);
+    }
+
+    .quotes-header-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-lg);
+    }
+
+    .quotes-banner-credit {
+      margin: var(--sp-xs) 0 0 0;
+    }
+
+    .quotes-banner-credit a {
+      color: inherit;
+    }
+
+    .quotes-banner-img {
+      display: block;
+      width: 480px;
+    }
+  </style>
+</head>
+
+<body class="page-content">
+
+  <main>
+    <div class="big-heading">[ quotes that altered my brain chemistry ]</div>
+    <div class="quotes-header">
+      <div class="quotes-header-img">
+        <img src="../img/convenience_store.jpg" class="quotes-banner-img">
+        <p class="quotes-banner-credit caption-text">© <a
+            href="https://www.tumblr.com/quenepacrossing/668694306235744256/excuse-the-photodump-but-im-obsessed-with?utm_source=Pinterest&utm_medium=organic"
+            target="_blank">quenepacrossing</a></p>
+      </div>
+      <div class="quotes-header-body">
+        <p class="body-text">"thanks for stopping by! oh, wait! i almost forgot to give you your words of wisdom. here's
+          your receipt!"</p>
+        <div id="choices-mount"></div>
+      </div>
+    </div>
+
+    <div class="receipts-col" id="receipts"></div>
+    <div class="single-receipt" id="single-receipt"></div>
+    <div class="nothanks" id="nothanks"><img src="../img/nothanks.png"></div>
+  </main>
+
+  <script>const quotes = {{ quotes | dump }};</script>
+  <script type="module">
+    import { renderReceipt } from '../js/receipt.js';
+    import { renderChoices } from '../js/choices.js';
+
+    // ── Config ──
+    const CONFIG = {
+      ids: {
+        receipts:      'receipts',
+        singleReceipt: 'single-receipt',
+        noThanks:      'nothanks',
+        choicesMount:  'choices-mount',
+        btnOne:        'btn-one',
+        btnAll:        'btn-all',
+        btnNo:         'btn-no',
+      },
+      classes: { visible: 'visible' },
+      choices: [
+        { id: 'btn-one', label: 'read the quote' },
+        { id: 'btn-all', label: 'read all quotes' },
+        { id: 'btn-no',  label: 'no, thanks' },
+      ],
+    };
+
+    // ── Elements ──
+    const receiptsSection      = document.getElementById(CONFIG.ids.receipts);
+    const singleReceiptSection = document.getElementById(CONFIG.ids.singleReceipt);
+    const noThanksSection      = document.getElementById(CONFIG.ids.noThanks);
+
+    // ── Logic ──
+    const pickRandomQuote = () => quotes[Math.floor(Math.random() * quotes.length)];
+
+    // ── Render ──
+    const hideAllSections = () => {
+      receiptsSection.classList.remove(CONFIG.classes.visible);
+      singleReceiptSection.classList.remove(CONFIG.classes.visible);
+      noThanksSection.classList.remove(CONFIG.classes.visible);
+    };
+
+    const renderRandomQuote = () => {
+      hideAllSections();
+      const quote = pickRandomQuote();
+      singleReceiptSection.innerHTML = renderReceipt(quote, quotes.indexOf(quote));
+      singleReceiptSection.classList.add(CONFIG.classes.visible);
+    };
+
+    const renderAllQuotes = () => {
+      hideAllSections();
+      receiptsSection.innerHTML = quotes.map(renderReceipt).join('');
+      receiptsSection.classList.add(CONFIG.classes.visible);
+    };
+
+    const renderNoThanks = () => {
+      hideAllSections();
+      noThanksSection.classList.add(CONFIG.classes.visible);
+    };
+
+    // ── Init ──
+    renderChoices(document.getElementById(CONFIG.ids.choicesMount), CONFIG.choices);
+
+    document.getElementById(CONFIG.ids.btnOne).addEventListener('click', renderRandomQuote);
+    document.getElementById(CONFIG.ids.btnAll).addEventListener('click', renderAllQuotes);
+    document.getElementById(CONFIG.ids.btnNo).addEventListener('click', renderNoThanks);
+  </script>
+
+</body>
+
+</html>

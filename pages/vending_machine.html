@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body.page-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: var(--sp-xl) 15%;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ── vending machine ── */
+    .machine-wrap {
+      position: relative;
+      display: inline-block;
+      margin-top: var(--sp-lg);
+    }
+
+    .machine-img {
+      display: block;
+      height: 650px;
+      width: auto;
+      filter: brightness(0.7);
+    }
+
+    /* ── slots ── */
+    .vm-slot {
+      position: absolute;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .vm-slot img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0.7);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .vm-slot:hover img {
+      transform: translateY(-5px) scale(1.1);
+      filter: brightness(1);
+    }
+
+    .vm-slot.disabled {
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .vm-slot.disabled img {
+      filter: brightness(0.3) grayscale(1);
+      transform: none;
+    }
+  </style>
+</head>
+
+<body class="page-content">
+
+  <p class="body-text">it's a hot summer night. you're out with friends and you're tired as HELL, but the vibes are too
+    good to go home yet. one more drink to keep the night alive?</p>
+
+  <main class="machine-wrap">
+    <img class="machine-img" src="../img/vending/vending.png" alt="vending machine">
+
+    <div class="vm-slot" style="left: 15.5%; top: 9%; width: 20%; height: 20%;" data-label="matcha"
+      data-response="same tbh" data-image="../img/vending/vm_matcha.jpg">
+      <img src="../img/vending/matcha.png" alt="matcha">
+    </div>
+    <div class="vm-slot" style="left: 38%; top: 10%; width: 23%; height: 23%;" data-label="tea"
+      data-response="you seem like a chill person" data-image="../img/vending/vm_tea.png">
+      <img src="../img/vending/tea.png" alt="tea">
+    </div>
+    <div class="vm-slot" style="left: 65%; top: 10.5%; width: 17%; height: 17%;" data-label="coca-cola"
+      data-response="never fails" data-image="../img/vending/vm_cocacola.gif">
+      <img src="../img/vending/cocacola.png" alt="coca-cola">
+    </div>
+    <div class="vm-slot" style="left: 15.5%; top: 27.5%; width: 20%; height: 20%;" data-label="latte"
+      data-response="hell yeah" data-image="../img/vending/vm_latte.jpg">
+      <img src="../img/vending/latte.png" alt="latte">
+    </div>
+    <div class="vm-slot" style="left: 41.5%; top: 30%; width: 17%; height: 17%;" data-label="bottled water"
+      data-response="i mean, i mainly drink water too but like- HAVE SOME FUN" data-image="../img/vending/vm_water.png">
+      <img src="../img/vending/water.png" alt="bottled water">
+    </div>
+    <div class="vm-slot" style="left: 65%; top: 28%; width: 22%; height: 22%;" data-label="hot chocolate"
+      data-response="are you not hot enough already?" data-image="../img/vending/vm_hotchoco.jpg">
+      <img src="../img/vending/hotchoco.png" alt="hot chocolate">
+    </div>
+    <div class="vm-slot" style="left: 17.5%; top: 46.5%; width: 20%; height: 20%;" data-label="beer"
+      data-response="you BETTER not fall asleep mid-way" data-image="../img/vending/vm_beer.png">
+      <img src="../img/vending/beer.png" alt="beer">
+    </div>
+    <div class="vm-slot" style="left: 40%; top: 47%; width: 19%; height: 19%;" data-label="iced coffee"
+      data-response="real coffee lover" data-image="../img/vending/vm_icedamericano.jpg">
+      <img src="../img/vending/icedcoffee.png" alt="iced coffee">
+    </div>
+    <div class="vm-slot" style="left: 66%; top: 48.5%; width: 16%; height: 16%;" data-label="monster energy"
+      data-response="your heart is literally screaming for mercy rn" data-image="../img/vending/vm_energy.jpg">
+      <img src="../img/vending/monster.png" alt="monster energy">
+    </div>
+
+  </main>
+
+  <div class="vm-modal-backdrop" id="vm-modal-backdrop">
+    <div class="vm-dialog bevel" role="dialog" aria-modal="true" aria-labelledby="vm-modal-title">
+      <div class="vm-dialog-titlebar">
+        <span class="vm-dialog-ctrl">□</span>
+        <span class="vm-dialog-title" id="vm-modal-title"></span>
+        <span class="vm-dialog-ctrl">□</span>
+        <button class="vm-dialog-ctrl" id="vm-modal-close" aria-label="close">✕</button>
+      </div>
+      <div class="vm-dialog-body">
+        <p class="vm-dialog-text" id="vm-modal-text"></p>
+        <img class="vm-dialog-img" id="vm-modal-img" src="" alt="" style="display:none;">
+        <button class="vm-ok-btn bevel" id="vm-modal-ok"></button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { bindTooltip } from '../js/tooltip.js';
+    import { openModal } from '../js/modal.js';
+
+    // ── Config ──
+    const CONFIG = {
+      ids: { title: 'vm-modal-title', text: 'vm-modal-text', img: 'vm-modal-img' },
+      classes: { slot: '.vm-slot', disabled: 'disabled' },
+    };
+
+    // ── Elements ──
+    const modalTitle = document.getElementById(CONFIG.ids.title);
+    const modalText  = document.getElementById(CONFIG.ids.text);
+    const modalImage = document.getElementById(CONFIG.ids.img);
+    const slots = document.querySelectorAll(CONFIG.classes.slot);
+
+    // ── Logic ──
+    const getSlotData = slot => ({
+      label:    slot.dataset.label,
+      response: slot.dataset.response ?? '',
+      image:    slot.dataset.image ?? '',
+    });
+
+    const disableOtherSlots = selectedLabel => {
+      slots.forEach(slot => slot.classList.toggle(CONFIG.classes.disabled, slot.dataset.label !== selectedLabel));
+    };
+
+    // ── Render ──
+    const renderModalContent = ({ label, response, image }) => {
+      modalTitle.textContent = label;
+      modalText.textContent  = response ? `"${response}"` : '';
+      modalText.style.display  = response ? 'block' : 'none';
+      modalImage.src           = image;
+      modalImage.style.display = image ? 'block' : 'none';
+    };
+
+    // ── Init ──
+    slots.forEach(slot => {
+      bindTooltip(slot, slot.dataset.label);
+      slot.addEventListener('click', () => {
+        const data = getSlotData(slot);
+        disableOtherSlots(data.label);
+        renderModalContent(data);
+        openModal();
+      });
+    });
+  </script>
+
+</body>
+
+</html>
