@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&display=swap');
+
+@font-face {
+  font-family: "Mango";
+  src: url("Mango.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 :root {
   /* ── colors ── */
@@ -105,12 +111,15 @@ h6 {
 
 body {
   background: var(--c-bg);
-  font-family: "Chivo Mono", monospace;
+  font-family: "Mango", monospace;
   margin: 0;
   overflow: hidden;
   height: 100vh;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: auto;
+  font-smooth: never;
 }
 
 body.page-content {
