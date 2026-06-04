@@ -205,7 +205,6 @@
                 src="//counter1.fc2.com/counter_img.php?id=40991392&main=1" /></noscript>
           </span></div>
         <div class="stat-row"><span class="caption-text">created</span><span class="body-text-mini">21 apr 2026</span></div>
-        <div class="stat-row"><span class="caption-text">updated</span><span id="lastUpdated" class="body-text-mini">...</span></div>
         <div class="sidebar-footer"><a href="https://neocities.org/site/clovded" target="_blank"
             class="sidebar-link">neocities profile ↗</a></div>
         <div class="sidebar-datetime">
@@ -306,16 +305,6 @@
       });
     });
 
-    // ── Last updated ──
-    const GITHUB_CACHE_TTL_MS = 3_600_000;
-
-    fetchWithCache('https://api.github.com/repos/clovded/neocities/commits?per_page=1', GITHUB_CACHE_TTL_MS)
-      .then(commits => {
-        document.getElementById('lastUpdated').textContent = formatDate(new Date(commits[0].commit.author.date));
-      }).catch(err => {
-        console.error('lastUpdated fetch failed:', err);
-        document.getElementById('lastUpdated').textContent = '—';
-      });
   </script>
 
 </body>
